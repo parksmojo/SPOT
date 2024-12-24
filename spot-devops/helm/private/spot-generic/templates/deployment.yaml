@@ -1,0 +1,78 @@
+{{- range $deploymentKey, $deploymentValue := .Values.deployments }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ $deploymentKey }}
+  labels:
+    {{- include "spot-generic.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "spot-generic.selectorLabels" . | nindent 6 }}
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      {{- with $deploymentValue.annotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "spot-generic.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with $deploymentValue.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+      {{- range $containerKey, $containerValue := $deploymentValue.containers }}
+        - name: {{ .Chart.Name }}
+          {{- with $containerValue.command }}
+          command:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          env:
+            {{- range $envKey, $envValue := $containerValue.envs }}
+            - name: {{ $envKey }}
+              value: {{ $envValue | quote }}
+            {{- end }}
+          image: "{{ $containerValue.image.repository }}:{{ $containerValue.image.tag | default "latest" }}"
+          imagePullPolicy: {{ $containerValue.image.pullPolicy }}
+          ports:
+            {{- range $portKey, $portValue := $containerValue.ports }}
+            - name: {{ $portKey }}
+              containerPort: {{ $portValue.containerPort }}
+              protocol: {{ $portValue.protocol }}
+            {{- end }}
+          resources:
+            {{- toYaml $containerValue.resources | nindent 12 }}
+          securityContext:
+            {{- toYaml $containerValue.securityContext | nindent 12 }}
+          volumeMounts:
+            {{- range $volumeMountKey, $volumeMountValue := $containerValue.volumeMounts }}
+            - name: {{ $volumeMountKey }}
+              mountPath: {{ $volumeMountValue.mountPath }}
+            {{- end }}
+      {{- end }}
+      {{- with $deploymentValue.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "spot-generic.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml $deploymentValue.securityContext | nindent 8 }}
+      {{- with $deploymentValue.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+        {{- range $volumeKey, $volumeValue := $deploymentValue.volumes }}
+        - name: {{ $volumeKey }}
+          {{ if $volumeValue.persistentVolumeClaim }}
+          persistentVolumeClaim:
+            claimName: {{ $volumeValue.persistentVolumeClaim.claimName }}
+          {{- end }}
+        {{- end }}
+{{- end }}

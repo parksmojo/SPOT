@@ -1,0 +1,22 @@
+{
+  "ingress": {
+    "enabled": true,
+    "annotations": {
+      "kubernetes.io/ingress.class": "nginx"
+    },
+    "hosts": [
+      {
+        "host": "tiles.spot.focalpoint.tech"
+      }
+    ]
+  },
+  "persistence": {
+    "accessModes": "ReadWriteOnce",
+    "existingClaim": "spot-tileserver-gl",
+    "mountPath": "/data",
+    "storageClass": "gp2"
+  },
+  "podSecurityContext": {
+    "fsGroup": 999
+  }
+}

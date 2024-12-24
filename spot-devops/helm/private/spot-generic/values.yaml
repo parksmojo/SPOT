@@ -1,0 +1,60 @@
+# Default values for spot-generic.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+deployments: {}
+#  <NameOfDeployment>:
+#    containers: {}
+#      <NameOfContainer>:
+#        image: {}
+#          repository: "rockylinux"
+#          tag: "latest"
+#          pullPolicy: "IfNotPresent"
+#        envs: {}
+#          FOO: "bar"
+#        securityContext:
+#          fsGroup: 2000
+#    serviceAccount: ""
+#    securityContext: {}
+#      capabilities: {}
+#        drop: []
+#        - ALL
+#      readOnlyRootFilesystem: true
+#      runAsNonRoot: true
+#      runAsUser: 1000
+#    resources: {}
+#      limits: {}
+#        cpu: 100m
+#        memory: 128Mi
+#      requests: {}
+#        cpu: 100m
+#        memory: 128Mi
+#    annotations: {}
+#    nodeSelector: {}
+#    tolerations: []
+#    affinity: {}
+
+persistentVolumeClaims: {}
+#  <NameOfPvc>:
+#    size: 10Gi
+#    accessModes: ReadWriteOnce
+#    #existingClaim: someclaim
+
+services: {}
+#  <NameOfService>: {}
+#    type: ClusterIP
+#    port: 8080
+
+ingresses: {}
+#  <NameOfIngress>:
+#    annotations: {}
+#      kubernetes.io/ingress.class: nginx
+#      kubernetes.io/tls-acme: "true"
+#    hosts: []
+#      - host: my-example.local
+#        path: /
+#    tls: []
+#      - secretName: my-example-tls
+#        hosts:
+#          - my-example.local
+

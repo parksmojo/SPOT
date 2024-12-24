@@ -1,0 +1,6 @@
+apiVersion: v2
+appVersion: v4.11.1
+description: SPOT deployment of maptiler/tileserver-gl.
+name: spot-tileserver-gl
+type: application
+version: 0.0.1

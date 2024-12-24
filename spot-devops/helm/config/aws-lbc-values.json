@@ -1,0 +1,7 @@
+{
+  "clusterName": "fpt-spot",
+  "serviceAccount": {
+    "create": false,
+    "name": "aws-load-balancer-controller"
+  }
+}

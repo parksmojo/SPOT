@@ -1,0 +1,19 @@
+{
+  "auth": {
+    "existingSecret": "spot-secrets"
+  },
+  "ingress": {
+    "enabled": true,
+    "annotations": {
+      "kubernetes.io/ingress.class": "nginx"
+    },
+    "hosts": [
+      {
+        "host": "maps.spot.focalpoint.tech"
+      }
+    ]
+  },
+  "persistence": {
+    "storageClass": "gp2"
+  }
+}

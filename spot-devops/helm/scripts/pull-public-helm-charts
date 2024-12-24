@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+
+######################################################################
+## Iniitalize the environment
+##
+this="${BASH_SOURCE-$0}"
+bin=$( cd -P -- "$( dirname -- "${this}" )" && pwd -P )
+script="$( basename -- "${this}" )"
+this="${bin}/${script}"
+timestamp="$( date +%Y%m%d_%H%M%S )"
+fqdn="$( hostname -f )"
+debug_level=1
+
+set -e
+set -u
+set -o pipefail
+
+CHARTS="${bin}/../public"
+ENV="${bin}/../.env"
+IFS=$'\n\t'
+
+source ${ENV}
+
+function downloadChart( ) {
+  CHART_REPO=${1}
+  CHART_REPO_LABEL=${2}
+  CHART_NAME=${3}
+  CHART_VERSION=${4:-""}
+  chartPath="${CHARTS}/${CHART_REPO_LABEL}"
+  chartName=$( basename -- "${CHART_NAME}" )
+  #helmOpts=${HELM_OPTS:-"--untardir \"${chartPath}\""}
+  helmOpts=${HELM_OPTS:-""}
+  chartVersion=$( echo "${chartName}" | awk -F ':' '{print $2}' )
+  if [[ "${chartVersion}" ]]; then
+    helmOpts="${helmOpts} --version ${chartVersion}"
+    chartName=$( echo "${chartName}" | awk -F ':' '{print $1}' )
+  fi
+  mkdir -p "${chartPath}"
+  if test -d "${chartPath}/${chartName}"; then
+      echo "[pull-public-helm-charts][public/${CHART_REPO_LABEL}/${chartName}-${chartVersion}][verified]"
+  else
+      echo "[pull-public-helm-charts][public/${CHART_REPO_LABEL}/${chartName}-${chartVersion}][downloading]"
+      eval "helm pull ${chartName} --repo ${CHART_REPO} --destination \"${chartPath}\" ${helmOpts}"
+      chartDownload=$( ls "${chartPath}/" | grep "^${chartName}-${chartVersion}.*.tgz$" | head -n 1 )
+      if [[ "${chartDownload}" ]]; then
+          echo "[public/${CHART_REPO_LABEL}/${chartDownload}][unpacking]"
+          eval "tar -xzf \"${chartPath}/${chartDownload}\" -C \"${chartPath}\""
+      fi
+  fi
+}
+
+downloadChart "https://opensource.ncsa.illinois.edu/charts" "ncsa" "geoserver:${GEOSERVER_CHART_VERSION}"
+downloadChart "https://kubernetes.github.io/ingress-nginx" "ingress-nginx" "ingress-nginx:${NGINX_CHART_VERSION}"
+downloadChart "https://charts.bitnami.com/bitnami" "bitnami" "postgresql:${PGSQL_CHART_VERSION}"
+downloadChart "https://aws.github.io/eks-charts" "aws" "aws-load-balancer-controller"
+
+

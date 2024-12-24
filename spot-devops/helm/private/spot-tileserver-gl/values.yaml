@@ -1,0 +1,66 @@
+# Default values for spot-tileserver-gl.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+image:
+  repository: maptiler/tileserver-gl
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+persistence:
+  size: 10Gi
+  accessModes: ReadWriteOnce
+  #existingClaim: someclaim
+
+envs: {}
+  # FOO: "bar"
+  
+serviceAccount:
+  # The name of the service account to use, if any
+  name: "" 
+
+podAnnotations: {}
+  
+podSecurityContext: {}
+  # fsGroup: 2000
+  
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 8080
+
+ingress:
+  enabled: false
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts: []
+  #  - host: tileserver-gl.local
+  #    path: /
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources: {}
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+

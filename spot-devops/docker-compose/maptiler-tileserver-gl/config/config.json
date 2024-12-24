@@ -1,0 +1,94 @@
+{
+  "options": {
+    "paths": {
+      "root": "",
+      "fonts": "/data/fonts",
+      "styles": "/data/styles",
+      "mbtiles": "/data/tiles"
+    },
+    "serveAllFonts": true,
+    "serveAllStyles": true
+  },
+  "styles": {
+    "basic-preview": {
+      "style": "maptiler-basic-gl-style/style.json",
+      "tilejson": {
+        "bounds": [
+          -83.67841,
+          36.53798,
+          -74.29751,
+          39.46901
+        ]
+      }
+    },
+    "basic-terrain": {
+      "style": "maptiler-terrain-gl-style/style.json",
+      "tilejson": {
+        "bounds": [
+          -83.67841,
+          36.53798,
+          -74.29751,
+          39.46901
+        ]
+      }
+    },
+    "Bright": {
+      "style": "osm-bright-gl-style/style.json",
+      "tilejson": {
+        "bounds": [
+          -83.67841,
+          36.53798,
+          -74.29751,
+          39.46901
+        ]
+      }
+    },
+    "Dark": {
+      "style": "dark-matter-gl-style/style.json",
+      "tilejson": {
+        "bounds": [
+          -83.67841,
+          36.53798,
+          -74.29751,
+          39.46901
+        ]
+      }
+    },
+    "Fiord": {
+      "style": "fiord-color-gl-style/style.json",
+      "tilejson": {
+        "bounds": [
+          -83.67841,
+          36.53798,
+          -74.29751,
+          39.46901
+        ]
+      }
+    },
+    "Positron": {
+      "style": "positron-gl-style/style.json",
+      "tilejson": {
+        "bounds": [
+          -83.67841,
+          36.53798,
+          -74.29751,
+          39.46901
+        ]
+      }
+    }
+  },
+  "data": {
+    "OSM": {
+      "mbtiles": "maptiler-osm-2022-07-18-v3.13.1-us_virginia.mbtiles"
+    },
+    "Contour": {
+      "mbtiles": "maptiler-contours-2019-04-10-us_virginia.mbtiles"
+    },
+    "Hillshading": {
+      "mbtiles": "maptiler-hillshade-2016-11-28-us_virginia.mbtiles"
+    },
+    "Satellite": {
+      "mbtiles": "maptiler-satellite-2017-11-02-us_virginia.mbtiles"
+    }
+  }
+}

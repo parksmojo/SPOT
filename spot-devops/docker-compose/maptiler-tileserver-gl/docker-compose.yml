@@ -1,0 +1,23 @@
+
+services:
+  tileserver-gl:
+    container_name: maptiler-tileserver-gl
+    image: maptiler/tileserver-gl:latest
+    command:
+      - "-V"
+      - "-c"
+      - "/data/config/config.json"
+    restart: "always"
+    volumes:
+      - ${PWD}/data/:/data/tiles/:ro
+      - ${PWD}/config/:/data/config/:ro
+      - ${PWD}/fonts/:/data/fonts/:ro
+      - ${PWD}/styles/:/data/styles/:ro
+    ports:
+      - "80:8080"
+    networks:
+      - tileserver-gl
+
+networks:
+  tileserver-gl:
+

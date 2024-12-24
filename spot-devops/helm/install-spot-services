@@ -1,0 +1,94 @@
+#!/usr/bin/env bash
+
+######################################################################
+## Iniitalize the environment
+##
+this="${BASH_SOURCE-$0}"
+bin=$( cd -P -- "$( dirname -- "${this}" )" && pwd -P )
+script="$( basename -- "${this}" )"
+this="${bin}/${script}"
+timestamp="$( date +%Y%m%d_%H%M%S )"
+fqdn="$( hostname -f )"
+debug_level=1
+
+set -e
+set -u
+set -o pipefail
+
+IFS=$'\n\t'
+
+
+######################################################################
+## Verify dependencies
+######################################################################
+echo "[install-spot][dependency][homebrew]"
+echo "[install-spot][dependency][envsubst]"
+if ! which envsubst >/dev/null 2>&1; then
+    brew install gettext
+fi
+echo "[install-spot][dependency][jq]"
+if ! which jq >/dev/null 2>&1; then
+    brew install jq
+fi
+echo -e "\n"
+
+
+######################################################################
+## Load environment variables
+######################################################################
+echo "[install-spot][source][.env]"
+if test -e "${bin}/.env"; then
+  source "${bin}/.env"
+else
+  echo "    ERROR: ${bin}/.env configuration file not found.  Please copy .env_example and change settings if necessary prior to running this installer. Aborting..."
+  exit 1
+fi
+echo -e "\n"
+
+
+######################################################################
+## Install Helm Cluster services
+######################################################################
+echo "[install-spot][helm][charts]"
+"${bin}/scripts/pull-public-helm-charts"
+#echo "[install-spot][helm][ingress-nginx]"
+#${HELM} --namespace kube-system upgrade --install ingress-nginx "${bin}/public/ingress-nginx/ingress-nginx-${NGINX_CHART_VERSION}.tgz" --values "${bin}/config/ingress-nginx-values.json"
+echo -e "\n"
+
+
+######################################################################
+## Install Kubernetes resources
+######################################################################
+echo "[install-spot][k8s][spot-cluster-resources]"
+envsubst < "${bin}/templates/spot-cluster-resources.yaml" | ${KUBECTL} apply -f -
+#echo "[install-spot][k8s][spot-namespace-resources]"
+#envsubst < "${bin}/templates/spot-namespace-resources.yaml" | ${KUBECTL} --namespace ${NAMESPACE} apply -f -
+echo -e "\n"
+
+
+######################################################################
+## Install Helm SPOT services
+######################################################################
+echo "[install-spot][helm][spot-postgresql]"
+${HELM} --namespace ${NAMESPACE} upgrade --install spot-postgresql "${bin}/public/bitnami/postgresql-${PGSQL_CHART_VERSION}.tgz" --values "${bin}/config/spot-postgresql-values.json"
+echo "[install-spot][helm][spot-geoserver]"
+${HELM} --namespace ${NAMESPACE} upgrade --install spot-geoserver "${bin}/public/ncsa/geoserver-${GEOSERVER_CHART_VERSION}.tgz" --values "${bin}/config/spot-geoserver-values.json"
+#echo "[install-spot][helm][tileserver-gl]"
+#${HELM} --namespace ${NAMESPACE} upgrade --install spot-geoserver "${bin}/private/tileserver-gl/" --values "${bin}/config/spot-tileserver-gl-values.json"
+echo -e "\n"
+
+######################################################################
+## List installed resources
+######################################################################
+echo "[install-spot][helm][list-installed-releases]"
+${HELM} list -A
+echo -e "\n"
+echo "[install-spot][helm][list-k8s-resources]"
+${KUBECTL} --namespace ${NAMESPACE} get statefulset,svc,deployments,pods
+echo -e "\n"
+
+
+######################################################################
+######################################################################
+echo "[install-spot][success]"
+exit 0

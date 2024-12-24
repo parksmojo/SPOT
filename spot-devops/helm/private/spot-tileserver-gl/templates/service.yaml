@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "spot-tileserver-gl.fullname" . }}
+  labels:
+    {{- include "spot-tileserver-gl.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: private-http
+      protocol: TCP
+      name: spot-tileserver-gl-http
+  selector:
+    {{- include "spot-tileserver-gl.selectorLabels" . | nindent 4 }}

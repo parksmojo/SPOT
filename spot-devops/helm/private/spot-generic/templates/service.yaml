@@ -1,0 +1,20 @@
+{{- range $serviceKey, $serviceValue := .Values.services }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $serviceKey }}
+  labels:
+    {{- include "spot-generic.labels" . | nindent 4 }}
+spec:
+  type: {{ $serviceValue.type }}
+  ports:
+    {{- range $portKey, $portValue := $serviceValue.ports }}
+    - name: {{ $portKey }}
+      port: {{ $portValue.port }}
+      protocol: {{ $portValue.protocol }}
+      targetPort: {{ $portValue.targetPort }}
+    {{- end }}
+  selector:
+    {{- include "spot-generic.selectorLabels" . | nindent 4 }}
+{{- end }}

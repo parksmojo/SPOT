@@ -1,0 +1,37 @@
+{
+  "version": "4.5.0",
+  "adminPasswordHash": "ebdf20a4944d85b9ef983e2169e69eb0e2d884accad727d5e3e7c1f961041e40",
+  "instanceId": "df47fc25-c32a-4922-a08d-00543429fbee",
+  "activation": "online",
+  "fileTiles": [],
+  "licenseServerEnabled": false,
+  "maps": [],
+  "rasterization": {
+    "poolSize": 13,
+    "queueCapacity": 1300,
+    "tileMargin": 0
+  },
+  "staticMap": {
+    "maxWidth": 2048,
+    "maxHeight": 2048
+  },
+  "apiDomains": [],
+  "checkForUpdates": true,
+  "frontPage": {
+    "type": "list"
+  },
+  "log": {
+    "access": false,
+    "file": false,
+    "level": "error"
+  },
+  "mapsAutoServe": true,
+  "sendUsageStatistics": true,
+  "serverName": "MapTiler Server",
+  "tilesAutoServe": true,
+  "wmsAllLayersEnabled": false,
+  "wmsAttributionEnabled": true,
+  "wmsEnabled": false,
+  "wmtsAllLayersEnabled": false,
+  "ingest": []
+}

@@ -1,0 +1,31 @@
+
+services:
+  server:
+    container_name: maptiler-tileserver
+    image: maptiler/server:latest
+    command: --adminPassword=${TSGL_ADMIN_PASS:-"admin123"}
+    restart: "always"
+    volumes:
+      - ${PWD}/data/maptiler-tileserver/:/data/
+      - ${PWD}/logs/maptiler-tileserver/:/data/logs/
+    environment:
+      MAPTILER_SERVER_LICENSE: ${MAPTILER_SERVER_LICENSE:-""}
+    networks:
+      - tileserver
+  nginx:
+    container_name: maptiler-webserver
+    image: nginx:1.25-alpine
+    restart: "always"
+    depends_on:
+      - server
+    ports:
+      - "80:80"
+    volumes:
+      - ${PWD}/config/nginx.conf:/etc/nginx/conf.d/server.conf:ro
+      - ${PWD}/logs/maptiler-webserver/:/var/log/nginx/
+    networks:
+      - tileserver
+
+networks:
+  tileserver:
+

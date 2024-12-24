@@ -1,0 +1,22 @@
+{
+  "global": {
+    "postgresql": {
+      "auth": {
+        "existingSecret": "spot-secrets"
+      }
+    },
+    "storageClass": "gp2"
+  },
+  "primary": {
+    "resources": {
+      "requests": {
+        "cpu": 1,
+        "memory": "512Mi"
+      },
+      "limits": {
+        "cpu": 1,
+        "memory": "1024Mi"
+      }
+    }
+  }
+}

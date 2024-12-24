@@ -1,0 +1,6 @@
+apiVersion: v2
+appVersion: 0.0.1
+description: SPOT generic deployment.
+name: spot-generic
+type: application
+version: 0.0.1

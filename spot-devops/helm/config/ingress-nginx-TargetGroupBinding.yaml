@@ -1,0 +1,21 @@
+apiVersion: elbv2.k8s.aws/v1beta1
+kind: TargetGroupBinding
+metadata:
+  name: spot-services-http-tgb
+  namespace: kube-system
+spec:
+  serviceRef:
+    name: ingress-nginx-controller
+    port: 80
+  targetGroupARN: arn:aws:elasticloadbalancing:us-east-1:058227136789:targetgroup/spot-services-http/d69165c3386aee0b
+---
+apiVersion: elbv2.k8s.aws/v1beta1
+kind: TargetGroupBinding
+metadata:
+  name: spot-services-https-tgb
+  namespace: kube-system
+spec:
+  serviceRef:
+    name: ingress-nginx-controller
+    port: 443
+  targetGroupARN: arn:aws:elasticloadbalancing:us-east-1:058227136789:targetgroup/spot-serivces-https/ed28d9fdced18bf1

@@ -1,0 +1,39 @@
+## Inserting player data
+sls invoke local --function insertPlayerData --data '{"playerName": "John Doe", "sessionTkn": "xyz123", "deviceId": "ADBFSDKV123303KD"}'
+
+## Inserting game data
+sls invoke local --f insertGameData --data '{"game_name":"Test Game","game_type":1,"game_state":0,"game_duration":60,"game_config":{"key":"value"}}'
+sls invoke local --f createNewGame  --data '{"game_name":"Test Game","game_type":1,"game_state":0,"game_duration":60,"game_config":{"key":"value"}}'
+## Inserting GPS data
+work in progress...
+
+## Updating game state of specific game:
+sls invoke local --f updateGamePhase --data '{"game_id":1,"operation":"enable","event":"start_game"}'
+
+
+
+
+## Curl Commands
+-Login-
+curl http://localhost:3000/session -X POST -d '{"username":"parker","deviceID":"plap"}' 
+
+-Create Game-
+curl http://localhost:3000/game -X PUT -d '{"sessionID":21,"gameName":"testGame","type":1,"duration":30}'
+
+-List Games-
+curl http://localhost:3000/game -X POST -d '{"sessionID":6}'
+
+-Join Game-
+curl http://localhost:3000/play -X PUT -d '{"sessionID":6,"gameID":2}'
+
+-GameComms-
+curl http://localhost:3000/comms -X POST -d '{"sessionID":6,"gameID":2}'
+
+-Ready up-
+curl http://localhost:3000/action -X POST -d '{"sessionID":6,"gameID":2,"actionData":{"type":"Ready"}}'
+
+-Leave Game-
+curl http://localhost:3000/play -X DELETE -d '{"sessionID":7,"gameID":3}'
+
+-Logout-
+curl http://localhost:3000/session -X DELETE -d '{"sessionID":19}'

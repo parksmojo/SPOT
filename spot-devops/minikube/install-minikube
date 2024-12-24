@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+######################################################################
+## Iniitalize the environment
+##
+this="${BASH_SOURCE-$0}"
+bin=$( cd -P -- "$( dirname -- "${this}" )" && pwd -P )
+script="$( basename -- "${this}" )"
+this="${bin}/${script}"
+timestamp="$( date +%Y%m%d_%H%M%S )"
+fqdn="$( hostname -f )"
+debug_level=1
+
+set -e
+set -u
+set -o pipefail
+
+scratch=$( mktemp -d -t scratch.tmp.XXXXXXXXXX )
+function finish {
+    rm -Rf "${scratch}"
+}
+trap finish EXIT
+
+IFS=$'\n\t'
+
+if test -e "/usr/local/bin/minikube"; then
+  echo "[minikube][install][verified]"
+else
+  echo "[minikube][install][downloading]"
+  curl -L -o "${scratch}/minikube-darwin-amd64" https://github.com/kubernetes/minikube/releases/download/v1.33.1/minikube-darwin-arm64
+  sudo install "${scratch}/minikube-darwin-amd64" /usr/local/bin/minikube
+fi
+
+echo "[minikube][version]"
+minikube version
+
+echo "
+
+    Minikube install finished.
+
+
+    Helpful commands:
+
+        minikube start
+        minikube stop
+"
+
+

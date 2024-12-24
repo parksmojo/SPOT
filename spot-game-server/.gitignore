@@ -1,0 +1,7 @@
+.vscode
+.DS_Store
+test.sql
+archive/
+bigtest.sql
+node_modules/
+camera.sql

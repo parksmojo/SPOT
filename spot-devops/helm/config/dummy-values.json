@@ -1,0 +1,29 @@
+{
+  "deployments": {
+    "dummy-app": {
+      "containers": {
+        "default": {
+          "image": {
+            "repository": "rockylinux",
+            "tag": "8"
+          },
+          "volumeMounts": {
+            "dummy-data": {
+              "mountPath": "/data"
+            }
+          }
+        }
+      },
+      "securityContext": {
+        "fsGroup": 999
+      },
+      "volumes": {
+        "dummy-data": {
+          "persistentVolumeClaim": {
+            "claimName": "spot-tileserver-gl"
+          }
+        }
+      }
+    }
+  }
+}

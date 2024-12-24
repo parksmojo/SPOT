@@ -1,0 +1,42 @@
+=GAME STATUS=
+0000 0000
+8765 4321
+
+1. Game is 'in lobby'
+2. Game has started
+3. A dead drop game is in phase 2 (collection phase)
+...
+8. Game has ended
+===
+
+=PLAYER STATUS=
+0000 0000
+8765 4321
+
+1. Player is currently in the game
+2. Player is currently ready
+3. Player participated in the running game (ie. after the lobby)
+4. 
+  a. In a dead drop game, the player has placed their drop
+  b. In a chase the rabbit game, the player is the rabbit
+  c. In a capture the flag game this player has been tagged
+5. 
+  a. In a dead drop game, the player has collected the assigned drop
+  b. In a capture the flag game this player has posession of a flag
+6. In a dead drop game, the player has reached their assigned safe zone
+===
+
+=CAMERA STATUS=
+0000
+4321
+
+1. Camera is warming up
+2. Camera has started
+3. Camera is disabled
+
+=FLAG STATUS=
+0000
+4321
+
+1. 0 for team 1, 1 for team 2
+2. Flag is captured

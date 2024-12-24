@@ -1,0 +1,134 @@
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: focalpoint
+# "service" is the name of this project. This will also be added to your AWS resource names.
+service: web-service
+
+custom:
+  serverless-offline:
+    host: 0.0.0.0
+    port: 3000
+plugins:
+  - serverless-offline
+  - serverless-dotenv-plugin
+provider:
+  name: aws
+  runtime: nodejs20.x
+  versionFunctions: false
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - secretsmanager:GetSecretValue
+        - secretsmanager:CreateSecret
+        - secretsmanager:DeleteSecret
+        - secretsmanager:PutSecretValue
+      Resource: "*"
+
+  httpApi:
+    cors: true
+  vpc:
+    securityGroupIds:
+      - sg-0ccacb1d63116f908
+    subnetIds:
+      - subnet-0d25016f86e6e1f53
+      - subnet-06901fda75ad29ead
+
+functions:
+  hello:
+    handler: handler.hello
+    events:
+      - httpApi:
+          path: /
+          method: get
+
+  login:
+    handler: handler.login
+    events:
+      - httpApi:
+          path: /session
+          method: post
+  logout:
+    handler: handler.logout
+    events:
+      - httpApi:
+          path: /session
+          method: delete
+
+  joinGame:
+    handler: handler.joinGame
+    events:
+      - httpApi:
+          path: /play
+          method: put
+
+  gameComms:
+    handler: handler.gameComms
+    events:
+      - httpApi:
+          path: /comms
+          method: post
+    memorySize: 2048
+    timeout: 29
+
+  action:
+    handler: handler.action
+    events:
+      - httpApi:
+          path: /action
+          method: post
+
+  leaveGame:
+    handler: handler.leaveGame
+    events:
+      - httpApi:
+          path: /play
+          method: delete
+
+  getJoinableGames:
+    handler: handler.getJoinableGames
+    events:
+      - httpApi:
+          path: /game
+          method: post
+  
+  createNewGame:
+    handler: handler.createNewGame
+    events:
+      - httpApi:
+          path: /game
+          method: put
+
+  gameHistory:
+    handler: handler.gameHistory
+    events:
+      - httpApi:
+          path: /history
+          method: post
+
+  gameHistoryInfo:
+    handler: handler.gameHistoryInfo
+    events:
+      - httpApi:
+          path: /history-info
+          method: post
+
+  logGPS:
+    handler: handler.logGPS
+    events:
+      - httpApi:
+          path: /geo
+          method: post
+
+  inventory:
+    handler: handler.inventory
+    events:
+      - httpApi:
+          path: /inventory
+          method: post
+
+  testingEndpoint:
+    handler: handler.testingEndpoint
+    events:
+      - httpApi:
+          path: /testing
+          method: get
+    timeout: 10

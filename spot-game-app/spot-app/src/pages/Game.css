@@ -1,0 +1,166 @@
+/* Map Window */
+.map-container {
+    position: relative;
+    width: 100%; /* Adjust the width as needed */
+    height: 100%; /* Adjust the height as needed */
+    margin: auto; /* Center the container horizontally */
+    border: 2px solid #000; /* Add a border for the window effect */
+    overflow: hidden; /* Hide any overflowing content */
+  }
+  
+/* Leaderboard */
+.leaderboard-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding-top: 5%;
+  margin: auto;
+}
+
+ion-fab{
+  z-index: 2;
+}
+
+/* Ready Button */
+ion-fab-button {
+  --border-radius: 15%;
+  --box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.3), 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+  --color: white;
+  font-size: 26px;
+}
+
+.ready-button-container.ready {
+  --background: red;
+  --background-activated: darkred;
+  --background-hover: lightcoral;
+}
+
+.ready-button-container.not-ready {
+  --background: #06b434;
+  --background-activated: #87d361;
+  --background-hover: #a3e681;
+}
+
+.ready-button-container {
+  width: 110px;
+  height: 55px;
+}
+
+.color-button{
+  margin-left: 44px;
+  margin-bottom: 5px;
+  width: 65px;
+  height: 55px;
+}
+
+.color-badge{
+  text-justify: center;
+  text-align: center;
+  font-size: large;
+  color: white;
+}
+
+.color-card{
+  position: fixed; /* Position the card relative to the viewport */
+  z-index: 3; /* Set the stacking order */
+  overflow: hidden;
+  bottom: 8%;
+  right: 19%;
+  background-color: #000;
+  opacity: 100%;
+}
+
+.color-picker{
+  padding: 10px;
+}
+
+.leaderboard-card {
+  position: fixed; /* Position the card relative to the viewport */
+  bottom: 2%; /* Adjust the distance from the bottom */
+  left: 50%; /* Center the card horizontally */
+  transform: translateX(-50%); /* Center the card horizontally */
+  width: 90%; /* Adjust the width */
+  max-width: 90%; /* Set a maximum width if needed */
+  max-height: 42%;
+  z-index: 1; /* Set the stacking order */
+  overflow: hidden;
+  opacity: 80%;
+}
+
+.lb_section{
+  width: fit-content;
+  display: flex;
+  padding: 1%;
+}
+
+.badges{
+  opacity: 100%;
+  background-color: black;
+  color: white;
+}
+
+.player-badge1{
+  background-color: #FFD700;
+  color: black;
+}
+
+.player-badge2{
+  background-color: #C0C0C0;
+  color: black;
+}
+
+.player-badge3{
+  background-color: #a97142;
+  color: black;
+}
+
+ion-button[slot='fixed'] {
+  width: 90%;
+  top: 90%;
+  right: 4.5%;
+}
+
+.summary-content{
+  margin-top: 15%;
+  color: white;
+  text-align: center;
+  text-justify:distribute;
+  font-size: 40px;
+}
+
+.winner-name{
+  font-size: 60px;
+  top: 50%;
+  color: white;
+  padding: 3%;
+}
+
+.won-text{
+  padding-bottom: 20px;
+}
+
+ion-button[slot='fixed'] {
+  width: 90%;
+  top: 90%;
+  right: 4.5%;
+}
+
+.lb-header{
+  font-size: large;
+}
+
+.lb-name-badge{
+  color: white;
+  font-size: large;
+  padding: 5%;
+}
+
+.lb-col{
+  text-align: center;
+  font-weight: 500;
+  padding: 0%;
+}
+
+.connection-slot{
+  padding-left: 0px;
+}

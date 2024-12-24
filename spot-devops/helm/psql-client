@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+source .env
+
+POSTGRES_PASSWORD=$( ${KUBECTL} get secret --namespace ${NAMESPACE} spot-postgresql -o jsonpath="{.data.postgres-password}" | base64 -d )
+${KUBECTL} \
+    --namespace ${NAMESPACE} \
+    run spot-postgresql-client \
+    --rm \
+    --tty \
+    --stdin \
+    --restart='Never' \
+    --image docker.io/bitnami/postgresql:16.3.0-debian-12-r12 \
+    --env="PGPASSWORD=$POSTGRES_PASSWORD" \
+    --command -- psql --host spot-postgresql -U postgres -d postgres -p 5432
+
+
